@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as dayjs from 'dayjs';
-import { User } from 'src/user/entities/user.entity';
+
+import { Employee } from 'src/employee/entities/employee.entity';
+
 import { Between, FindOneOptions, Repository } from 'typeorm';
 import { Auth } from './entities/auth.entity';
 import { Provider } from './entities/provider.entity';
@@ -14,8 +16,8 @@ export class AuthRepository {
     private authRepository: Repository<Auth>,
     @InjectRepository(Provider)
     private providerRepository: Repository<Provider>,
-    @InjectRepository(User)
-    private userRepository: Repository<User>,
+    @InjectRepository(Employee)
+    private employeeRepository: Repository<Employee>,
     private utils: UtilsService,
   ) {}
 
@@ -42,7 +44,7 @@ export class AuthRepository {
 
     const auth = this.authRepository.create(authProps);
     await this.authRepository.insert(auth);
-    this.userRepository.save({
+    this.employeeRepository.save({
       email: payload.email,
       firstName: payload.firstName,
       lastName: payload.lastName,

@@ -12,7 +12,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { AuthModule } from './auth/auth.module';
 
 import { CommonModule } from './common/common.module';
-import { UserModule } from './user/user.module';
+import { EmployeeModule } from './employee/employee.module';
 import { UtilsModule } from './utils/utils.module';
 
 @Module({
@@ -39,7 +39,7 @@ import { UtilsModule } from './utils/utils.module';
       }),
       inject: [ConfigService],
     }),
-    UserModule,
+    EmployeeModule,
     AuthModule,
     EventEmitterModule.forRoot(),
 

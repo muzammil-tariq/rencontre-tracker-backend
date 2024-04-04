@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UserRepository } from './user.repository';
+import { CreateEmployeeDto } from './dto/create-employee.dto';
+import { EmployeeRepository } from './employee.repository';
 
 @Injectable()
-export class UserService {
-  constructor(private userRepository: UserRepository) {}
+export class EmployeeService {
+  constructor(private userRepository: EmployeeRepository) {}
 
-  create(createUserDto: CreateUserDto) {
+  create(createUserDto: CreateEmployeeDto) {
     this.userRepository.insert(createUserDto);
   }
 

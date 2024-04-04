@@ -7,7 +7,9 @@ import {
 } from 'typeorm';
 import { Auth } from './auth.entity';
 
-@Entity()
+@Entity({
+  name: 'Providers',
+})
 export class Provider {
   @Index({ unique: true })
   @PrimaryGeneratedColumn()

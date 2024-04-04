@@ -10,14 +10,14 @@ import {
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { ApiBearerAuth, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthService } from 'src/auth/auth.service';
-import { UserService } from './user.service';
+import { EmployeeService } from './employee.service';
 
 @ApiBearerAuth()
 @ApiTags('user')
 @Controller('user')
 export class UserController {
   constructor(
-    private readonly userService: UserService,
+    private readonly employeeService: EmployeeService,
     private readonly eventEmitter: EventEmitter2,
     private readonly authService: AuthService,
   ) {}
@@ -33,7 +33,7 @@ export class UserController {
   })
   @Get('/')
   async findOne(@Request() req) {
-    const user = await this.userService.findUser(req.user.email);
+    const user = await this.employeeService.findUser(req.user.email);
     if (!user) {
       throw new NotFoundException('User not found');
     }
@@ -57,10 +57,10 @@ export class UserController {
     if (id) {
       id = Number(id);
       auth = await this.authService.getById(id);
-      user = await this.userService.findUser(auth.email);
+      user = await this.employeeService.findUser(auth.email);
     }
     if (email) {
-      user = await this.userService.findUser(email);
+      user = await this.employeeService.findUser(email);
       auth = await this.authService.getByEmail(email);
     }
     if (!user || !auth) {
@@ -78,6 +78,6 @@ export class UserController {
 
   @Delete('/')
   async deleteUser(@Request() req) {
-    await this.userService.remove(req.user.email);
+    await this.employeeService.remove(req.user.email);
   }
 }

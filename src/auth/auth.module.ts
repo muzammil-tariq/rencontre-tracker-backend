@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CoreModule } from 'src/core/core.module';
-import { User } from 'src/user/entities/user.entity';
+import { Employee } from 'src/employee/entities/employee.entity';
 import { UtilsModule } from 'src/utils/utils.module';
 import { AuthController } from './auth.controller';
 import { AuthGuard } from './auth.guard';
@@ -15,7 +15,7 @@ import { FirebaseAuthStrategy } from './strategies/firebase-auth.strategy';
   imports: [
     CoreModule,
     UtilsModule,
-    TypeOrmModule.forFeature([Auth, Provider, User]),
+    TypeOrmModule.forFeature([Auth, Provider, Employee]),
   ],
   controllers: [AuthController],
   providers: [AuthService, AuthRepository, AuthGuard, FirebaseAuthStrategy],
