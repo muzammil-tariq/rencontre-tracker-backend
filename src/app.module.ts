@@ -34,7 +34,7 @@ import { UtilsModule } from './utils/utils.module';
         password: config.get('DB_PASSWORD'),
         database: config.get('DB_DATABASE'),
         entities: [__dirname + '/**/*.entity.{js,ts}'],
-        synchronize: false,
+        synchronize: true,
         logging: false,
       }),
       inject: [ConfigService],

@@ -1,8 +1,17 @@
 import { Auth } from 'src/auth/entities/auth.entity';
-import { Entity, Column, PrimaryColumn, OneToOne } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class User {
+  @PrimaryGeneratedColumn()
+  id: number;
+
   @PrimaryColumn({
     unique: true,
   })
@@ -25,9 +34,6 @@ export class User {
   birthDate: Date;
 
   @Column({ default: null, nullable: true })
-  socialStatus: string;
-
-  @Column({ default: null, nullable: true })
   gender: string;
 
   @Column({ default: null, nullable: true })
@@ -43,33 +49,11 @@ export class User {
   state: string;
 
   @Column({ default: null, nullable: true })
-  zip: string;
+  zipCode: string;
 
   @Column({
     default: null,
     nullable: true,
   })
   profileImage: string;
-
-  @Column({
-    default: false,
-  })
-  isDead?: boolean;
-
-  @Column({
-    nullable: true,
-    default: false,
-  })
-  isAffiliate?: boolean;
-
-  @Column({
-    nullable: true,
-    default: true,
-  })
-  isLegalSuiteEnabled?: boolean;
-
-  @Column({
-    default: false,
-  })
-  deathSequenceInitiated?: boolean;
 }

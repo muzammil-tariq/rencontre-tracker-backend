@@ -1,9 +1,18 @@
-import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  Index,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Auth {
   @Index({ unique: true })
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn({
+    unique: true,
+    nullable: false,
+  })
   id: string;
 
   @Index({ unique: true })

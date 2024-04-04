@@ -4,6 +4,7 @@ import * as firebase from 'firebase-admin';
 import { AuthRepository } from './auth.repository';
 import { Auth } from './entities/auth.entity';
 import { AuthTempParams } from './strategies/firebase-auth.strategy';
+import { CreateAuthDto } from './dto/create-auth.dto';
 
 @Injectable()
 export class AuthService {
@@ -20,6 +21,21 @@ export class AuthService {
 
   async login(userAuth: Auth & Partial<AuthTempParams>) {
     return userAuth;
+  }
+  async signup(payload: CreateAuthDto) {
+    let firebaseUid: string;
+    let createdAuth;
+    const auth = await this.authRepository.findByEmail(payload.email);
+    if (!auth) {
+      const firebaseUser = await this.createOrGetFirebaseUser(payload);
+      createdAuth = await this.authRepository.insert(firebaseUser.uid, payload);
+      firebaseUid = firebaseUser.uid;
+    } else {
+      firebaseUid = auth.id;
+    }
+    // Generate a custom token for the Firebase UID
+    const firebaseToken = await firebase.auth().createCustomToken(firebaseUid);
+    return createdAuth;
   }
 
   async findByDateRange(date1: Date, date2: Date) {
@@ -49,27 +65,26 @@ export class AuthService {
   //   const firebaseToken = await firebase.auth().createCustomToken(firebaseUid);
   //   return firebaseToken;
   // }
-  async createOrGetFirebaseUser(email: string, address: string) {
+  async createOrGetFirebaseUser(payload: CreateAuthDto) {
     try {
-      const user = await firebase.auth().getUserByEmail(email);
+      const user = await firebase.auth().getUserByEmail(payload.email);
       if (!user) {
-        return this.createFirebaseUser(email, address);
+        return this.createFirebaseUser(payload);
       }
       return user;
     } catch (error) {
       if (error.errorInfo.code.includes('auth/user-not-found')) {
-        return this.createFirebaseUser(email, address);
+        return this.createFirebaseUser(payload);
       }
       throw error;
     }
   }
-  async createFirebaseUser(email: string, address: string) {
+  async createFirebaseUser(payload: CreateAuthDto) {
     const newUser = await firebase.auth().createUser({
-      email,
+      email: payload.email,
+      displayName: payload.firstName + ' ' + payload.lastName,
+      password: payload.password,
     });
-    await firebase
-      .auth()
-      .setCustomUserClaims(newUser.uid, { erc20Address: address });
     return newUser;
   }
 }

@@ -4,6 +4,7 @@ import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
+import { Public } from './auth.decorator';
 
 @ApiTags('auth')
 @ApiBearerAuth()
@@ -21,8 +22,13 @@ export class AuthController {
     description:
       'Some error has occured. Either the jwt token or the public key is invalid.',
   })
-  @Post('/')
-  async loginOrSignup(@Body() body: CreateAuthDto, @Request() req) {
+  @Post('/login')
+  async login(@Body() body: CreateAuthDto, @Request() req) {
     return await this.authService.login(req.user);
+  }
+  @Public()
+  @Post('/signup')
+  async signup(@Body() body: CreateAuthDto, @Request() req) {
+    return await this.authService.signup(body);
   }
 }

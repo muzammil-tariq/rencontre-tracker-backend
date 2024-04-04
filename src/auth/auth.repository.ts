@@ -6,6 +6,7 @@ import { Between, FindOneOptions, Repository } from 'typeorm';
 import { Auth } from './entities/auth.entity';
 import { Provider } from './entities/provider.entity';
 import { UtilsService } from 'src/utils/utils.service';
+import { CreateAuthDto } from './dto/create-auth.dto';
 @Injectable()
 export class AuthRepository {
   constructor(
@@ -32,35 +33,22 @@ export class AuthRepository {
     return await this.authRepository.findOne({ where: { id } });
   }
 
-  // async insert(
-  //   id: string,
-  //   email: string,
-  //   stripeId: string,
-  //   firstName: string,
-  //   lastName: string,
-  //   isAffiliate?: boolean,
-  //   isLegalSuiteEnabled?: boolean,
-  // ) {
-  //   const authProps: Partial<Auth> = {
-  //     id,
-  //     stripeCustomerId: stripeId,
-  //     email,
-  //     lastLogin: new Date(),
-  //     joinedAt: new Date(),
-  //   };
-  //   if (this.utils.isDummyEmail(email))
-  //     authProps.erc20Address = email.split('@')[0].trim();
-  //   const auth = this.authRepository.create(authProps);
-  //   await this.authRepository.insert(auth);
-  //   this.userRepository.save({
-  //     email,
-  //     firstName,
-  //     lastName,
-  //     isAffiliate,
-  //     isLegalSuiteEnabled,
-  //   });
-  //   return auth;
-  // }
+  async insert(id: string, payload: CreateAuthDto) {
+    const authProps: Partial<Auth> = {
+      id,
+      email: payload.email,
+      joinedAt: new Date(),
+    };
+
+    const auth = this.authRepository.create(authProps);
+    await this.authRepository.insert(auth);
+    this.userRepository.save({
+      email: payload.email,
+      firstName: payload.firstName,
+      lastName: payload.lastName,
+    });
+    return auth;
+  }
 
   async update(email: string, auth: Partial<Auth>): Promise<void> {
     await this.authRepository.update({ email }, auth);
