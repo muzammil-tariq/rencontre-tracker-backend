@@ -14,6 +14,7 @@ import { AuthModule } from './auth/auth.module';
 import { CommonModule } from './common/common.module';
 import { EmployeeModule } from './employee/employee.module';
 import { UtilsModule } from './utils/utils.module';
+import { EmployeeManagerModule } from './employeeManager/employee.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { UtilsModule } from './utils/utils.module';
       inject: [ConfigService],
     }),
     EmployeeModule,
+    EmployeeManagerModule,
     AuthModule,
     EventEmitterModule.forRoot(),
 

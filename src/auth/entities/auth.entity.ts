@@ -1,13 +1,7 @@
-import {
-  Column,
-  Entity,
-  Index,
-  PrimaryColumn,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, Index, PrimaryColumn } from 'typeorm';
 
 @Entity({
-  name: 'Auths',
+  name: 'auths',
 })
 export class Auth {
   @Index({ unique: true })

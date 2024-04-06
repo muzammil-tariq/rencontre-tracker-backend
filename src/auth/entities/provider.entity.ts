@@ -8,7 +8,7 @@ import {
 import { Auth } from './auth.entity';
 
 @Entity({
-  name: 'Providers',
+  name: 'providers',
 })
 export class Provider {
   @Index({ unique: true })
