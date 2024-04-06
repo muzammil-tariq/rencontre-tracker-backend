@@ -17,6 +17,7 @@ import { UtilsModule } from './utils/utils.module';
 import { EmployeeManagerModule } from './employeeManager/employee.module';
 import { VisitorModule } from './visitor/visitor.module';
 import { MeetingAgendaModule } from './meetingAgenda/meetingAgenda.module';
+import { OrganizationModule } from './organization/meetingAgenda.module';
 
 @Module({
   imports: [
@@ -48,7 +49,7 @@ import { MeetingAgendaModule } from './meetingAgenda/meetingAgenda.module';
     VisitorModule,
     MeetingAgendaModule,
     EventEmitterModule.forRoot(),
-
+    OrganizationModule,
     CommonModule,
 
     UtilsModule,
