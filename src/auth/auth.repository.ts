@@ -56,15 +56,6 @@ export class AuthRepository {
     await this.authRepository.update({ email }, auth);
   }
 
-  // async updateLastLogin(id: string) {
-  //   const auth = await this.authRepository.findOne({ where: { id } });
-  //   if (!auth) {
-  //     throw new Error('User not found');
-  //   }
-  //   auth.lastLogin = new Date();
-  //   await this.authRepository.save(auth);
-  // }
-
   async addProvider(authId: string, name: string) {
     const provider = await this.providerRepository.findOne({
       where: { authId, name },
