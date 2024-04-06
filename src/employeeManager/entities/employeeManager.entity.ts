@@ -1,9 +1,10 @@
+import { foriengnKeyName } from 'src/constants';
 import { Employee } from 'src/employee/entities/employee.entity';
 import {
   Column,
   Entity,
+  JoinColumn,
   OneToOne,
-  PrimaryColumn,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -14,13 +15,30 @@ export class EmployeeManager {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @PrimaryColumn({
-    unique: true,
+  @OneToOne(() => Employee, (employee: Employee) => employee.id, {
+    nullable: true,
   })
-  @OneToOne(() => Employee, (employee: Employee) => employee.id)
-  employeeId: number;
+  @JoinColumn({
+    foreignKeyConstraintName: foriengnKeyName('hostId', 'employee_managers'),
+    referencedColumnName: 'id',
+    name: 'hostId',
+  })
+  host: Employee;
 
-  @OneToOne(() => Employee, (employee: Employee) => employee.id)
+  @Column()
+  hostId: number;
+
+  @OneToOne(() => Employee, (employee: Employee) => employee.id, {
+    nullable: true,
+  })
+  @JoinColumn({
+    foreignKeyConstraintName: foriengnKeyName('managerId', 'employee_managers'),
+    referencedColumnName: 'id',
+    name: 'managerId',
+  })
+  manager: Employee;
+
+  @Column()
   managerId: number;
 
   @Column({

@@ -1,12 +1,12 @@
-import { Auth } from 'src/auth/entities/auth.entity';
+import { foriengnKeyName } from 'src/constants';
 import { Employee } from 'src/employee/entities/employee.entity';
+import { Organization } from 'src/organization/entities/organization.entity';
 import {
-  Entity,
   Column,
-  PrimaryColumn,
+  Entity,
+  JoinColumn,
   OneToOne,
   PrimaryGeneratedColumn,
-  JoinColumn,
 } from 'typeorm';
 
 @Entity({
@@ -16,20 +16,29 @@ export class Visitor {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @PrimaryColumn({
-    unique: true,
-  })
   @OneToOne(() => Employee, (employee: Employee) => employee.id, {
     nullable: true,
   })
-  @JoinColumn()
-  employee: number;
+  @JoinColumn({
+    foreignKeyConstraintName: foriengnKeyName('employeeId', 'visitors'),
+    referencedColumnName: 'id',
+    name: 'employeeId',
+  })
+  employee: Employee;
 
-  // @OneToOne(() => Employee, (employee: Employee) => employee.id, {
-  //   nullable: true,
-  // })
-  // @JoinColumn()
-  // organization: number;
+  @Column({ nullable: true })
+  employeeId: number;
+
+  @OneToOne(() => Organization, (organization: Organization) => organization.id)
+  @JoinColumn({
+    foreignKeyConstraintName: foriengnKeyName('organizationId', 'visitors'),
+    referencedColumnName: 'id',
+    name: 'organizationId',
+  })
+  organization: Organization;
+
+  @Column()
+  organizationId: number;
 
   @Column()
   fullName: string;

@@ -1,8 +1,10 @@
 import { Auth } from 'src/auth/entities/auth.entity';
+import { foriengnKeyName } from 'src/constants';
+import { Organization } from 'src/organization/entities/organization.entity';
 import {
-  Entity,
   Column,
-  PrimaryColumn,
+  Entity,
+  JoinColumn,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -14,14 +16,33 @@ export class Employee {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @PrimaryColumn({
-    unique: true,
+  @OneToOne(() => Auth, (auth: Auth) => auth.id)
+  @JoinColumn({
+    foreignKeyConstraintName: foriengnKeyName('authId', 'employees'),
+    referencedColumnName: 'id',
+    name: 'authId',
   })
-  @OneToOne(() => Auth, (auth: Auth) => auth.email)
-  email: string;
+  auth: Auth;
+
+  @Column()
+  authId: number;
+
+  @OneToOne(() => Organization, (organization: Organization) => organization.id)
+  @JoinColumn({
+    foreignKeyConstraintName: foriengnKeyName('organizationId', 'employees'),
+    referencedColumnName: 'id',
+    name: 'organizationId',
+  })
+  organization: Organization;
+
+  @Column()
+  organizationId: number;
 
   @Column()
   firstName: string;
+
+  @Column()
+  email: string;
 
   @Column()
   lastName: string;

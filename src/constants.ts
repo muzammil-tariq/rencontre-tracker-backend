@@ -3,3 +3,5 @@ export const DEFAULT_PORT = 3000;
 export const DUMMY_EMAIL_DOMAIN = 'dummy.rencontre.com';
 export const DUMMY_EMAIL = (address: string) =>
   `${address}@${DUMMY_EMAIL_DOMAIN}`;
+export const foriengnKeyName = (columnName: string, tableName: string) =>
+  `FK_${columnName}_${tableName}`;

@@ -1,24 +1,37 @@
-import { Auth } from 'src/auth/entities/auth.entity';
+import { foriengnKeyName } from 'src/constants';
+import { Organization } from 'src/organization/entities/organization.entity';
 import {
-  Entity,
   Column,
-  PrimaryColumn,
+  Entity,
+  JoinColumn,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
 @Entity({
-  name: 'meeting_agends',
+  name: 'meeting_agendas',
 })
 export class MeetingAgenda {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @PrimaryColumn({
-    unique: true,
+  @OneToOne(
+    () => Organization,
+    (organization: Organization) => organization.id,
+    { nullable: true },
+  )
+  @JoinColumn({
+    foreignKeyConstraintName: foriengnKeyName(
+      'organizationId',
+      'meeting_agendas',
+    ),
+    referencedColumnName: 'id',
+    name: 'organizationId',
   })
-  @OneToOne(() => Auth, (auth: Auth) => auth.email)
-  email: string;
+  organization: Organization;
+
+  @Column()
+  organizationId: number;
 
   @Column()
   name: string;

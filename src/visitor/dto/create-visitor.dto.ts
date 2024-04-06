@@ -17,7 +17,11 @@ export class CreateVisitorDto {
   @ApiProperty()
   @IsNumber()
   @IsOptional()
-  employee: number;
+  employeeId: number;
+
+  @ApiProperty()
+  @IsNumber()
+  organizationId: number;
 
   @ApiProperty()
   @IsString()

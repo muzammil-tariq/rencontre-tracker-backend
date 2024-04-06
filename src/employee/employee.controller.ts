@@ -11,6 +11,7 @@ import { EventEmitter2 } from '@nestjs/event-emitter';
 import { ApiBearerAuth, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthService } from 'src/auth/auth.service';
 import { EmployeeService } from './employee.service';
+import { Public } from 'src/auth/auth.decorator';
 
 @ApiBearerAuth()
 @ApiTags('Employees')
@@ -32,8 +33,9 @@ export class UserController {
       'Some error has occured. Either the jwt token or the public key is invalid.',
   })
   @Get('/')
+  @Public()
   async findOne(@Request() req) {
-    const user = await this.employeeService.findUser(req.user.email);
+    const user = await this.employeeService.findUser(req?.user?.email);
     if (!user) {
       throw new NotFoundException('User not found');
     }
