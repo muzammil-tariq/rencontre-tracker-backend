@@ -23,7 +23,7 @@ export class Auth {
     default: () => 'CURRENT_TIMESTAMP',
     nullable: false,
   })
-  joinedAt: Date;
+  createdAt: Date;
 
   @Column({
     type: 'timestamp',

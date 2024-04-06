@@ -5,8 +5,8 @@ import { AuthService } from 'src/auth/auth.service';
 import { EmployeeManagerService } from './employeeManager.service';
 
 @ApiBearerAuth()
-@ApiTags('user')
-@Controller('user')
+@ApiTags('Employee Manager')
+@Controller('employeeManager')
 export class UserController {
   constructor(
     private readonly employeeManagerService: EmployeeManagerService,

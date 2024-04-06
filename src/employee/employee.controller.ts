@@ -13,8 +13,8 @@ import { AuthService } from 'src/auth/auth.service';
 import { EmployeeService } from './employee.service';
 
 @ApiBearerAuth()
-@ApiTags('user')
-@Controller('user')
+@ApiTags('Employees')
+@Controller('employees')
 export class UserController {
   constructor(
     private readonly employeeService: EmployeeService,

@@ -58,4 +58,18 @@ export class Employee {
     nullable: true,
   })
   profileImage: string;
+
+  @Column({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    nullable: false,
+  })
+  joinedAt: Date;
+
+  @Column({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    nullable: false,
+  })
+  updatedAt: Date;
 }
