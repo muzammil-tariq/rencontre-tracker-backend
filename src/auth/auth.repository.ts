@@ -39,7 +39,7 @@ export class AuthRepository {
     const authProps: Partial<Auth> = {
       id,
       email: payload.email,
-      joinedAt: new Date(),
+      createdAt: new Date(),
     };
 
     const auth = this.authRepository.create(authProps);
@@ -82,7 +82,7 @@ export class AuthRepository {
   async findByDateRange(date1: Date, date2: Date) {
     return this.authRepository.find({
       where: {
-        joinedAt: Between(date2, date1),
+        createdAt: Between(date2, date1),
       },
     });
   }
