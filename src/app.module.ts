@@ -15,6 +15,8 @@ import { CommonModule } from './common/common.module';
 import { EmployeeModule } from './employee/employee.module';
 import { UtilsModule } from './utils/utils.module';
 import { EmployeeManagerModule } from './employeeManager/employee.module';
+import { VisitorModule } from './visitor/visitor.module';
+import { MeetingAgendaModule } from './meetingAgenda/meetingAgenda.module';
 
 @Module({
   imports: [
@@ -43,6 +45,8 @@ import { EmployeeManagerModule } from './employeeManager/employee.module';
     EmployeeModule,
     EmployeeManagerModule,
     AuthModule,
+    VisitorModule,
+    MeetingAgendaModule,
     EventEmitterModule.forRoot(),
 
     CommonModule,

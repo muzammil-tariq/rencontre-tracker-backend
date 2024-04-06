@@ -13,4 +13,4 @@ import { MeetingAgendaRepository } from './meetingAgenda.repository';
   providers: [MeetingAgendaRepository, MeetingAgendaService],
   exports: [MeetingAgendaService],
 })
-export class EmployeeModule {}
+export class MeetingAgendaModule {}
