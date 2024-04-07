@@ -17,7 +17,8 @@ import { UtilsModule } from './utils/utils.module';
 import { EmployeeManagerModule } from './employeeManager/employee.module';
 import { VisitorModule } from './visitor/visitor.module';
 import { MeetingAgendaModule } from './meetingAgenda/meetingAgenda.module';
-import { OrganizationModule } from './organization/meetingAgenda.module';
+import { OrganizationModule } from './organization/organization.module';
+import { MeetingModule } from './meeting/meetingAgenda.module';
 
 @Module({
   imports: [
@@ -51,7 +52,7 @@ import { OrganizationModule } from './organization/meetingAgenda.module';
     EventEmitterModule.forRoot(),
     OrganizationModule,
     CommonModule,
-
+    MeetingModule,
     UtilsModule,
   ],
   controllers: [AppController],
