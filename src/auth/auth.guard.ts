@@ -9,13 +9,20 @@ import { AuthGuard as PassportAuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
 import { AuthService } from './auth.service';
 import { IS_PUBLIC_KEY } from './auth.decorator';
+import { EmployeeService } from 'src/employee/employee.service';
+import { EmployeeManagerService } from 'src/employeeManager/employeeManager.service';
 
 @Injectable()
 export class AuthGuard
   extends PassportAuthGuard('firebase-auth')
   implements CanActivate
 {
-  constructor(private authService: AuthService, private reflector: Reflector) {
+  constructor(
+    private authService: AuthService,
+    private employeeService: EmployeeService,
+    private employeeManagerService: EmployeeManagerService,
+    private reflector: Reflector,
+  ) {
     super();
   }
 
@@ -31,15 +38,21 @@ export class AuthGuard
 
     await super.canActivate(context);
 
-    const userAuth = await this.authService.getByEmail(
+    const employee = await this.employeeService.findUser(
       (request.user as any).email,
     );
-
-    if (!userAuth && !isPublic) {
+    const manager = await this.employeeManagerService.findOneByManagerId(
+      employee.id,
+    );
+    if (!employee && !isPublic) {
       throw new HttpException('Invalid token', 401);
     }
 
-    request.user = userAuth;
+    request.user = {
+      ...employee,
+      isManager: manager ? true : false,
+      employeeManager: manager,
+    };
 
     return true;
   }

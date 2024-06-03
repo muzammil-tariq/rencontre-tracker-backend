@@ -16,19 +16,6 @@ export class Visitor {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @OneToOne(() => Employee, (employee: Employee) => employee.id, {
-    nullable: true,
-  })
-  @JoinColumn({
-    foreignKeyConstraintName: foriengnKeyName('employeeId', 'visitors'),
-    referencedColumnName: 'id',
-    name: 'employeeId',
-  })
-  employee: Employee;
-
-  @Column({ nullable: true })
-  employeeId: number;
-
   @OneToOne(() => Organization, (organization: Organization) => organization.id)
   @JoinColumn({
     foreignKeyConstraintName: foriengnKeyName('organizationId', 'visitors'),
@@ -40,13 +27,13 @@ export class Visitor {
   @Column()
   organizationId: number;
 
-  @Column()
+  @Column({ nullable: false })
   fullName: string;
 
-  @Column()
+  @Column({ nullable: true })
   phoneNumber: string;
 
-  @Column()
+  @Column({ nullable: false })
   nationalIdentificationNumber: string;
 
   @Column({

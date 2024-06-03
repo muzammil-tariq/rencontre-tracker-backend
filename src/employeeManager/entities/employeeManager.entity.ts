@@ -3,7 +3,9 @@ import { Employee } from 'src/employee/entities/employee.entity';
 import {
   Column,
   Entity,
+  Index,
   JoinColumn,
+  ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -11,6 +13,9 @@ import {
 @Entity({
   name: 'employee_managers',
 })
+// @Index(['hostId', 'managerId'], {
+//   unique: true,
+// })
 export class EmployeeManager {
   @PrimaryGeneratedColumn()
   id: number;
@@ -28,7 +33,7 @@ export class EmployeeManager {
   @Column()
   hostId: number;
 
-  @OneToOne(() => Employee, (employee: Employee) => employee.id, {
+  @ManyToOne(() => Employee, (employee: Employee) => employee.id, {
     nullable: true,
   })
   @JoinColumn({

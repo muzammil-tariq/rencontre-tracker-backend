@@ -17,18 +17,15 @@ export class CreateVisitorDto {
   @ApiProperty()
   @IsNumber()
   @IsOptional()
-  employeeId: number;
+  hostId: number;
 
   @ApiProperty()
   @IsNumber()
-  organizationId: number;
-
-  @ApiProperty()
-  @IsString()
   nationalIdentificationNumber: string;
 
   @ApiProperty()
   @IsString()
+  @IsOptional()
   @IsPhoneNumber(undefined, {
     message: 'Phone number must be in international format',
   })

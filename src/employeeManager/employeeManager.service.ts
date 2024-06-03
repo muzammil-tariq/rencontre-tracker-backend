@@ -1,27 +1,44 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { EmployeeManagersRepository } from './employeeManager.repository';
+import { CreateEmployeeManagerDto } from './dto/create-employeeManager.dto';
+import * as firebase from 'firebase-admin';
+import { AuthService } from 'src/auth/auth.service';
 
 @Injectable()
 export class EmployeeManagerService {
-  constructor(private employeeManagersRepository: EmployeeManagersRepository) {}
+  constructor(
+    private employeeManagersRepository: EmployeeManagersRepository,
+    private authService: AuthService,
+  ) {}
 
-  // create(createUserDto: CreateEmployeeDto) {
-  //   this.employeeManagersRepository.insert(createUserDto);
-  // }
+  create(createUserDto: CreateEmployeeManagerDto, hostId: number) {
+    this.employeeManagersRepository.insert(createUserDto, hostId);
+  }
 
-  // async findUser(email: string) {
-  //   return await this.employeeManagersRepository.findByEmail(email);
-  // }
-  // async findUsersByEmails(emails: string[]) {
-  //   return await this.employeeManagersRepository.findUsersByEmails(emails);
-  // }
+  async findAllByHostId(id: number) {
+    return await this.employeeManagersRepository.findAllByEmployees(id);
+  }
+  async getAllHosts(id: number) {
+    return await this.employeeManagersRepository.getAllHosts(id);
+  }
+  async findOneByManagerId(id: number) {
+    return await this.employeeManagersRepository.findOneByManagerId(id);
+  }
+  async findByManagerAndHost(hostId: number, managerId: number) {
+    return await this.employeeManagersRepository.findByManagerAndHost(
+      hostId,
+      managerId,
+    );
+  }
+  async loginAsManager(hostId: number, managerId: number) {
+    const hostManager = await this.findByManagerAndHost(hostId, managerId);
+    const auth = await this.authService.getByEmail(hostManager.host.email);
+    if (!hostManager) throw new NotFoundException('Host Manager not found');
+    const claims = {
+      managerId,
+      managerEmail: hostManager.manager.email,
+    };
 
-  // async remove(email: string) {
-  //   // disable delete user functionlity for now
-  //   // const data = await this.employeeManagersRepository.remove(email);
-  //   // await this.authService.remove(email);
-  //   // return data;
-
-  //   return this.employeeManagersRepository.remove(email);
-  // }
+    return firebase.auth().createCustomToken(auth.id, claims);
+  }
 }

@@ -15,8 +15,14 @@ export class EmployeeRepository {
     await this.employeeRepository.save(user);
   }
 
-  async findByEmail(email: string): Promise<Employee | null> {
-    return await this.employeeRepository.findOne({ where: { email } });
+  async findByEmail(
+    email: string,
+    relations: string[] = [],
+  ): Promise<Employee | null> {
+    return await this.employeeRepository.findOne({
+      where: { email },
+      relations,
+    });
   }
   async findUsersByEmails(emails: string[]): Promise<Employee[] | null> {
     return await this.employeeRepository.find({ where: { email: In(emails) } });

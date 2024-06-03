@@ -10,8 +10,8 @@ export class EmployeeService {
     this.userRepository.insert(createUserDto);
   }
 
-  async findUser(email: string) {
-    return await this.userRepository.findByEmail(email);
+  async findUser(email: string, relations: string[] = []) {
+    return await this.userRepository.findByEmail(email, relations);
   }
   async findUsersByEmails(emails: string[]) {
     return await this.userRepository.findUsersByEmails(emails);

@@ -44,8 +44,10 @@ export class AuthRepository {
 
     const auth = this.authRepository.create(authProps);
     await this.authRepository.insert(auth);
-    this.employeeRepository.save({
+    await this.employeeRepository.save({
       email: payload.email,
+      authId: auth.id,
+      organizationId: payload.organizationId,
       firstName: payload.firstName,
       lastName: payload.lastName,
     });

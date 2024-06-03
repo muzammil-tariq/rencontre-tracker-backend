@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
 
 import { EmployeeManager } from './entities/employeeManager.entity';
+import { CreateEmployeeManagerDto } from './dto/create-employeeManager.dto';
 
 @Injectable()
 export class EmployeeManagersRepository {
@@ -11,22 +12,37 @@ export class EmployeeManagersRepository {
     private employeeManagerRepository: Repository<EmployeeManager>,
   ) {}
 
-  // async insert(user: CreateEmployeeDto): Promise<void> {
-  //   await this.employeeManagerRepository.save(user);
-  // }
+  async insert(
+    payload: CreateEmployeeManagerDto,
+    hostId: number,
+  ): Promise<void> {
+    await this.employeeManagerRepository.save({
+      ...payload,
+      hostId,
+    });
+  }
 
-  // async findByEmail(email: string): Promise<Employee | null> {
-  //   return await this.employeeManagerRepository.findOne({ where: { email } });
-  // }
-  // async findUsersByEmails(emails: string[]): Promise<Employee[] | null> {
-  //   return await this.employeeManagerRepository.find({ where: { email: In(emails) } });
-  // }
-
-  // async update(email: string, user: Employee): Promise<void> {
-  //   await this.employeeManagerRepository.update({ email }, user);
-  // }
-
-  // remove(email: string) {
-  //   return this.employeeManagerRepository.delete({ email });
-  // }
+  async findAllByEmployees(id: number): Promise<EmployeeManager[]> {
+    return await this.employeeManagerRepository.find({ where: { hostId: id } });
+  }
+  async getAllHosts(id: number): Promise<EmployeeManager[]> {
+    return await this.employeeManagerRepository.find({
+      where: { managerId: id },
+      relations: ['host', 'manager'],
+    });
+  }
+  async findOneByManagerId(id: number): Promise<EmployeeManager> {
+    return await this.employeeManagerRepository.findOne({
+      where: { managerId: id },
+    });
+  }
+  async findByManagerAndHost(
+    hostId: number,
+    managerId: number,
+  ): Promise<EmployeeManager> {
+    return await this.employeeManagerRepository.findOne({
+      where: { managerId, hostId },
+      relations: ['host', 'manager'],
+    });
+  }
 }

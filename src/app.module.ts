@@ -18,7 +18,7 @@ import { EmployeeManagerModule } from './employeeManager/employee.module';
 import { VisitorModule } from './visitor/visitor.module';
 import { MeetingAgendaModule } from './meetingAgenda/meetingAgenda.module';
 import { OrganizationModule } from './organization/organization.module';
-import { MeetingModule } from './meeting/meetingAgenda.module';
+import { MeetingModule } from './meeting/meeting.module';
 
 @Module({
   imports: [

@@ -7,7 +7,7 @@ import { CreateMeetingAgendaDto } from './dto/create-meetingAgenda.dto';
 export class MeetingAgendaService {
   constructor(private meetingAgendaRepository: MeetingAgendaRepository) {}
 
-  create(createUserDto: CreateMeetingAgendaDto) {
+  async create(createUserDto: CreateMeetingAgendaDto) {
     this.meetingAgendaRepository.insert(createUserDto);
   }
 

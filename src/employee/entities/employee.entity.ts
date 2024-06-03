@@ -1,10 +1,12 @@
 import { Auth } from 'src/auth/entities/auth.entity';
 import { foriengnKeyName } from 'src/constants';
+import { EmployeeManager } from 'src/employeeManager/entities/employeeManager.entity';
 import { Organization } from 'src/organization/entities/organization.entity';
 import {
   Column,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -25,9 +27,12 @@ export class Employee {
   auth: Auth;
 
   @Column()
-  authId: number;
+  authId: string;
 
-  @OneToOne(() => Organization, (organization: Organization) => organization.id)
+  @ManyToOne(
+    () => Organization,
+    (organization: Organization) => organization.id,
+  )
   @JoinColumn({
     foreignKeyConstraintName: foriengnKeyName('organizationId', 'employees'),
     referencedColumnName: 'id',
@@ -93,4 +98,8 @@ export class Employee {
     nullable: false,
   })
   updatedAt: Date;
+
+  //virtual columns
+  @OneToOne(() => EmployeeManager, (employee) => employee.managerId)
+  host?: EmployeeManager;
 }

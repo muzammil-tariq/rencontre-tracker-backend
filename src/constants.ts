@@ -5,3 +5,5 @@ export const DUMMY_EMAIL = (address: string) =>
   `${address}@${DUMMY_EMAIL_DOMAIN}`;
 export const foriengnKeyName = (columnName: string, tableName: string) =>
   `FK_${columnName}_${tableName}`;
+
+export const ORGANIZATION_ID = 2;

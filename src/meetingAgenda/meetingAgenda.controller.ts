@@ -6,7 +6,7 @@ import { MeetingAgendaService } from './meetingAgenda.service';
 
 @ApiBearerAuth()
 @ApiTags('MeetingAgenda')
-@Controller('meetingAgendas')
+@Controller('meeting-agendas')
 export class MeetingAgendaController {
   constructor(
     private readonly meetingAgendaService: MeetingAgendaService,
